@@ -1,0 +1,25 @@
+{
+  "name": "codex-toolkit",
+  "version": "0.1.0",
+  "description": "Delegate to the local Codex CLI from a coding agent: discuss / review / implement code, generate visual assets, review UI screenshots, and check the Codex setup.",
+  "author": { "name": "davidleitw", "url": "https://github.com/davidleitw" },
+  "homepage": "https://github.com/davidleitw/codex-toolkit",
+  "repository": "https://github.com/davidleitw/codex-toolkit",
+  "keywords": ["codex", "delegation", "review", "image-generation", "visual-review", "skills"],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Codex Toolkit",
+    "shortDescription": "Discuss, review, implement, make assets, review screenshots via Codex CLI",
+    "longDescription": "Four skills sharing one contract: codex (discuss / review / implement against a repository), codex-assets (staged image and vector asset production with a verified manifest), codex-visual-review (read-only screenshot critique, compare, recheck), and codex-setup (readiness report). Model and service tier are always passed explicitly; GPT-6 and fast mode require an explicit user request.",
+    "developerName": "davidleitw",
+    "category": "Development",
+    "capabilities": ["Read", "Write"],
+    "websiteURL": "https://github.com/davidleitw/codex-toolkit",
+    "defaultPrompt": [
+      "Use codex to review my uncommitted changes.",
+      "Use codex-assets to make a hero illustration for the README.",
+      "Use codex-setup doctor to check my Codex install."
+    ],
+    "brandColor": "#1F3A5F"
+  }
+}

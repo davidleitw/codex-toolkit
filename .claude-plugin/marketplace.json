@@ -1,0 +1,14 @@
+{
+  "$schema": "https://www.schemastore.org/claude-code-marketplace.json",
+  "name": "codex-toolkit",
+  "description": "Community skills that let a coding agent delegate to the local Codex CLI.",
+  "owner": { "name": "davidleitw", "url": "https://github.com/davidleitw" },
+  "plugins": [
+    {
+      "name": "codex-toolkit",
+      "description": "codex (discuss/review/implement), codex-assets, codex-visual-review, codex-setup.",
+      "source": "./",
+      "category": "development"
+    }
+  ]
+}
