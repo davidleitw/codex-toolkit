@@ -2,7 +2,7 @@
 
 ## 目前狀態（2026-09-07）
 
-初版已完成並提交：四個 skill（`codex`、`codex-assets`、`codex-visual-review`、`codex-setup`）各自帶 SKILL.md 與一支 bash 腳本；Claude Code 與 Codex 兩邊的 plugin manifest 指向同一份 `skills/`；白話繁體中文 README；`assets/header.jpg` 進版圖（由 `codex-assets` 腳本實際生成，兩個變體中選了米白單浪版）。
+初版已完成並提交：四個 skill（`codex`、`codex-assets`、`codex-visual-review`、`codex-setup`）各自帶 SKILL.md 與一支 bash 腳本；Claude Code 與 Codex 兩邊的 plugin manifest 指向同一份 `skills/`；英文 README 加 README.zh-TW.md 中文版；`assets/header.jpg` 進版圖（由 `codex-assets` 腳本實際生成，兩個變體中選了米白單浪版）。
 
 本輪刻意縮小範圍：只確定 skill 內容、寫 SKILL.md 與必要的輕量腳本、提供 plugin 封裝。沒有 jobs 系統、session 續接、MCP、瀏覽器自動化、Node runner、JSON schema 檔、自動化測試。前一版交接裡的這些規劃全部作廢，未來要做時重新評估，不要當成既定契約。
 
