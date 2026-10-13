@@ -179,8 +179,8 @@ codex_args=(
   -c "service_tier=\"$service_tier\""
   --output-last-message "$final_file"
 )
-for r in "${references[@]}"; do codex_args+=(--image "$r"); done
-for t in "${edit_targets[@]}"; do codex_args+=(--image "$t"); done
+for r in ${references[@]+"${references[@]}"}; do codex_args+=(--image "$r"); done
+for t in ${edit_targets[@]+"${edit_targets[@]}"}; do codex_args+=(--image "$t"); done
 codex_args+=(-)
 
 codex "${codex_args[@]}" <"$prompt_file" 2>"$error_file"

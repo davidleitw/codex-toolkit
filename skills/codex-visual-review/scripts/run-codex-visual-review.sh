@@ -160,8 +160,8 @@ codex_args=(
   -c "service_tier=\"$service_tier\""
   --output-last-message "$report_file"
 )
-for img in "${images[@]}"; do codex_args+=(--image "$img"); done
-for ref in "${references[@]}"; do codex_args+=(--image "$ref"); done
+for img in ${images[@]+"${images[@]}"}; do codex_args+=(--image "$img"); done
+for ref in ${references[@]+"${references[@]}"}; do codex_args+=(--image "$ref"); done
 codex_args+=(-)
 
 codex "${codex_args[@]}" <"$prompt_file" 2>"$error_file"
