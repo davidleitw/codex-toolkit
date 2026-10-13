@@ -1,6 +1,6 @@
 {
   "name": "codex-toolkit",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Delegate to the local Codex CLI from a coding agent: discuss / review / implement code, generate visual assets, review UI screenshots, and check the Codex setup.",
   "author": { "name": "davidleitw", "url": "https://github.com/davidleitw" },
   "homepage": "https://github.com/davidleitw/codex-toolkit",

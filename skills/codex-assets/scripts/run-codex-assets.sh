@@ -14,7 +14,7 @@ set -uo pipefail
 umask 077
 
 repo="$PWD"
-model="gpt-5.6-sol"
+model="gpt-6.1-sol"
 effort="high"
 fast=0
 staging_root="${TMPDIR:-/tmp}/codex-toolkit/assets"
@@ -54,12 +54,12 @@ while [[ $# -gt 0 ]]; do
 done
 
 case "$effort" in
-  none|minimal|low|medium|high|xhigh|max) ;;
+  none|minimal|low|medium|high|xhigh|max|ultra) ;;
   *) fail_arguments "unsupported effort: $effort" ;;
 esac
 
 # Policy: terra is never used; astra must be an explicit user request (passing it is the caller's attestation).
-[[ "$model" != "gpt-5.6-terra" ]] || fail_arguments "gpt-5.6-terra is not allowed by policy; use gpt-5.6-sol or gpt-5.6-luna"
+[[ "$model" != "gpt-5.6-terra" ]] || fail_arguments "gpt-5.6-terra is not allowed by policy; use gpt-6.1-sol"
 
 command -v codex >/dev/null 2>&1 || {
   echo "CODEX_ASSETS_FAILED kind=unavailable: codex is not installed or not on PATH"

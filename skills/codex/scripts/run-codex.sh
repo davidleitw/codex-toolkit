@@ -58,12 +58,12 @@ done
 [[ -n "$effort" ]] || fail_arguments "--effort is required; never inherit the effort from config"
 
 case "$effort" in
-  none|minimal|low|medium|high|xhigh|max) ;;
+  none|minimal|low|medium|high|xhigh|max|ultra) ;;
   *) fail_arguments "unsupported effort: $effort" ;;
 esac
 
 # Policy: terra is never used; astra must be an explicit user request (passing it is the caller's attestation).
-[[ "$model" != "gpt-5.6-terra" ]] || fail_arguments "gpt-5.6-terra is not allowed by policy; use gpt-5.6-sol or gpt-5.6-luna"
+[[ "$model" != "gpt-5.6-terra" ]] || fail_arguments "gpt-5.6-terra is not allowed by policy; use gpt-6.1-sol"
 
 case "$mode" in
   implement) sandbox="workspace-write" ;;

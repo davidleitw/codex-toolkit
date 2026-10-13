@@ -1,6 +1,6 @@
 ---
 name: codex-assets
-description: Produce visual assets through the local Codex CLI - illustrations, backgrounds, textures, mockups, icons, favicons, social images, sprite frames, and edits or variants of existing images. Modes generate, edit, set (several assets sharing one spec), revise (new version of an earlier output). Raster output uses Codex's built-in image generation; scalable icons and marks are produced as SVG or code-native assets. Output is staged outside the repository for the caller to review and integrate. Not for reviewing screenshots (see codex-visual-review).
+description: Produce or edit image assets through the local Codex CLI. Use when the task needs a new illustration, background, texture, mockup, icon, favicon, social image, or sprite frame; several assets in one consistent style; or an edit, variant, or new version of an existing image. Not for reviewing screenshots (codex-visual-review).
 allowed-tools:
   - Bash
   - Read
@@ -12,7 +12,7 @@ allowed-tools:
 
 # codex-assets
 
-Script: `scripts/run-codex-assets.sh` inside this skill's directory. Brief goes on stdin. Codex works in a staging directory (default `${TMPDIR:-/tmp}/codex-toolkit/assets/job-*`), never in the repository.
+Run `scripts/run-codex-assets.sh` from this skill's directory with the brief on stdin. Codex writes only into a staging job directory (default `${TMPDIR:-/tmp}/codex-toolkit/assets/job-*`), never into the repository; reviewing and integrating the files is your job.
 
 ## Prepare
 
@@ -21,7 +21,7 @@ Script: `scripts/run-codex-assets.sh` inside this skill's directory. Brief goes 
 3. Route: raster (illustration, background, texture, mockup, variant, sprite frame) → built-in image generation; scalable icon or production mark → SVG / code-native; UI motion → CSS / SVG / Lottie / framework code, image generation only for source frames.
 4. Write the brief: mode, visual goal, placement, project conventions, exact deliverables (file names, sizes, formats, transparency), constraints, avoid-list, role of each attached image.
 
-The mode is stated in the brief text; the script has no mode argument. The deliverable is always staged files. Anything that changes files inside the repository (wiring an SVG into a component, editing a repo asset in place) is the caller's job or the codex skill in implement mode, even when the file is an image.
+State the mode in the brief; the script has no mode argument. Changes to files inside the repository (wiring an SVG into a component, editing a repo asset in place) are yours or the codex skill's implement mode, even when the file is an image.
 
 | Mode | Flags | Brief says |
 |---|---|---|
@@ -30,31 +30,31 @@ The mode is stated in the brief text; the script has no mode argument. The deliv
 | set | none or `--reference` | list of items plus the shared visual spec |
 | revise | `--edit-target <previous output>` | the one change requested; original stays untouched, result is a new version |
 
-## Model and speed
+## Model and effort
 
-Defaults `gpt-5.6-sol` / `high` (asset work involves design judgment). Pass `--model gpt-5.6-luna --effort max` only for a settled, mechanical job such as re-exporting a fixed spec. Never `gpt-5.6-terra` (the script rejects it). `gpt-6-astra` and `--fast` only on explicit user request, each separately; the script pins the standard tier without `--fast`. Fast reminder policy as in the codex skill: one non-blocking mention after the first delegated run, never repeated.
+Without flags the script uses `gpt-6.1-sol` / `high`. Use `--effort medium` for a settled, mechanical job such as re-exporting a fixed spec. `gpt-6-astra` (at `high` unless the user names an effort) and `--fast` only when the user explicitly asks, each separately; an effort the user names is used as given. After the first run without fast, tell the user once, in their language and without waiting, that fast mode speeds up later runs but may use more quota.
 
 ## Run
 
 ```bash
 <skill-dir>/scripts/run-codex-assets.sh --repo "<repo-root>" \
   [--reference "<style-or-composition-image>"]... [--edit-target "<image-to-edit>"]... \
-  [--model gpt-5.6-sol --effort high] [--fast] <<'BRIEF'
+  [--model <model> --effort <effort>] [--fast] <<'BRIEF'
 <self-contained asset brief>
 BRIEF
 ```
 
-The script is synchronous and image generation is slow: launch it with the harness's own background mechanism (not a shell `&`), capture stdout and stderr to files, read them when done.
+Image generation is slow: launch with the harness's background mechanism (not a shell `&`), send stdout and stderr to files, and read them when it finishes.
 
-The last stdout line is the marker (both kinds go to stdout):
+The last stdout line is the marker:
 - `CODEX_ASSETS_READY status=<complete|partial> job_dir=... manifest=... preview=...`
 - `CODEX_ASSETS_FAILED kind=<invalid_arguments|unavailable|rate_limit|authentication|service|execution|invalid_manifest|missing_or_linked_asset|unsafe_asset_path|format_mismatch> ...`
 
-`READY` means the CLI returned and every listed asset exists inside the job dir, is a regular file, and matches its declared format; it says nothing about visual quality. No marker means interrupted or unknown.
+`READY` means every listed asset exists in the job dir as a regular file matching its declared format; it says nothing about visual quality. `partial` is usable: integrate what arrived and report `missing`. No marker means interrupted.
 
-The script rewrites every asset entry in `manifest.json` with values read from the file itself: `sha256`, `bytes`, `width`, `height`, `alpha`, `detected` (PNG incl. tRNS, JPEG, GIF, WebP, SVG headers; null when python3 is missing or the format is unknown). Model-written text stays in `intended_use`, `notes`, `version_of`, `task_summary`, `warnings`, `missing`. `preview.html` shows every asset over light, dark, and checker backgrounds.
+In `manifest.json`, `sha256`, `bytes`, `width`, `height`, `alpha`, and `detected` are measured from the files by the script (null when python3 is missing or the format is unknown); `intended_use`, `notes`, `version_of`, `task_summary`, `warnings`, and `missing` are model-written. `preview.html` shows each asset on light, dark, and checker backgrounds; give the user its path when transparency matters.
 
-No automatic retries. One later run only as a distinct request (a revise with `--edit-target`, or changed brief). Never rerun `rate_limit`, `authentication`, `unavailable`, `service`; point the user to codex-setup for the last three. A `partial` result is usable: integrate the delivered items, report `missing`.
+No automatic retries. A second run must be a distinct request (a revise with `--edit-target`, or a changed brief). Never rerun `rate_limit`, `authentication`, `unavailable`, or `service`; for the last three, run the codex-setup doctor if available.
 
 ## Review and integrate
 

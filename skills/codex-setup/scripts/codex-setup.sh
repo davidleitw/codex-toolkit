@@ -119,7 +119,7 @@ smoke_test() {
   out="$workdir/last-message.txt"
 
   codex exec --ephemeral --skip-git-repo-check --sandbox read-only --cd "$workdir" \
-    --model gpt-5.6-luna -c 'model_reasoning_effort="low"' -c 'service_tier="default"' \
+    --model gpt-6-luna -c 'model_reasoning_effort="low"' -c 'service_tier="default"' \
     --output-last-message "$out" \
     'Reply with exactly the text CODEX_SMOKE_REPLY and nothing else.' >/dev/null 2>"$err"
   status=$?
@@ -128,11 +128,11 @@ smoke_test() {
     echo "CODEX_SMOKE_FAILED kind=text exit_code=$status workdir=$workdir"
     exit 1
   fi
-  echo "smoke text: ok (gpt-5.6-luna low)"
+  echo "smoke text: ok (gpt-6-luna low)"
 
   if [[ $with_imagegen -eq 1 ]]; then
     codex exec --ephemeral --skip-git-repo-check --sandbox workspace-write --cd "$workdir" \
-      --model gpt-5.6-luna -c 'model_reasoning_effort="low"' -c 'service_tier="default"' \
+      --model gpt-6-luna -c 'model_reasoning_effort="low"' -c 'service_tier="default"' \
       --output-last-message "$out" \
       "Use the built-in image generation tool (\$imagegen, built-in mode, no API fallback) to generate one small 1024x1024 flat solid indigo square, then copy the result to $workdir/smoke.png. Reply with the final path only." >/dev/null 2>"$err"
     status=$?

@@ -18,12 +18,14 @@ assets/header.jpg                              README 進版圖
 
 每個 skill 目錄自足（自己的腳本、自己的錯誤分類），沒有跨 skill 的共用 lib。錯誤分類那 ~15 行在四支腳本裡重複，是刻意換來的單獨安裝能力。
 
-## 已定案的模型與速度政策（沿用，不變）
+## 已定案的模型與速度政策（2026-10-13 改版）
 
-- 討論、review（任何規模）、debug、程式追蹤、設計判斷：`gpt-5.6-sol` / `high`。不用 `gpt-5.6-terra`。
-- 決策已確定的輕量 implement（含機械修改）：`gpt-5.6-luna` / `max`。
-- `codex-assets`、`codex-visual-review` 預設 sol / high（有設計判斷）。
-- `gpt-6-astra` 與 fast mode（`-c service_tier="fast"`）各自需要使用者明確指定，互不隱含；不因難度、失敗、繼承設定自動升級。
+- 預設（討論、review 任何規模、debug、程式追蹤、設計判斷）：`gpt-6.1-sol` / `high`。不用 `gpt-5.6-terra`。
+- 決策已確定、範圍明確的純 coding implement（含機械修改）：`gpt-6.1-sol` / `medium`。取代舊的 `gpt-5.6-luna` / `max`。
+- `codex-assets`、`codex-visual-review` 預設 `gpt-6.1-sol` / `high`（有設計判斷）。
+- `gpt-6-astra` 與 fast mode（`-c service_tier="fast"`）各自需要使用者明確指定，互不隱含；不因難度、失敗、繼承設定自動升級。指定 astra 但沒指定 effort 時用 `high`。
+- 使用者指定的 effort 照用；腳本允許 `none` 到 `ultra`（新一代模型支援 `ultra`）。
+- `codex-setup smoke-test` 改用 `gpt-6-luna` / `low`。
 - 第一個委派送出後，呼叫端提醒一次可選 fast；非阻塞、不重送。
 - 對話中已授權的設定持續沿用。
 

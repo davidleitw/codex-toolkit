@@ -91,17 +91,19 @@ Plain language is enough; the agent picks the skill:
 
 ## Model and speed policy
 
-Every script passes the model, reasoning effort, and service tier explicitly on every run. Nothing is inherited from `~/.codex/config.toml`. This is deliberate: even if your global config names GPT-6 or fast, neither is used unless you ask.
+Every script passes the model, reasoning effort, and service tier explicitly on every run. Nothing is inherited from `~/.codex/config.toml`. This is deliberate: even if your global config names Astra or fast, neither is used unless you ask.
 
 | Work | Model / effort |
 |---|---|
-| Discussion, review of any size, debugging, code tracing, anything needing design judgment | `gpt-5.6-sol` / `high` |
-| Lightweight changes with settled decisions and clear scope (including mechanical edits) | `gpt-5.6-luna` / `max` |
-| Image generation, screenshot review | `gpt-5.6-sol` / `high` |
+| Default: discussion, review of any size, debugging, code tracing, anything needing design judgment | `gpt-6.1-sol` / `high` |
+| Pure coding with settled decisions and clear scope (including mechanical edits) | `gpt-6.1-sol` / `medium` |
+| Image generation, screenshot review | `gpt-6.1-sol` / `high` |
+| You explicitly ask for Astra | `gpt-6-astra` / `high`, or the effort you name |
 
 - `gpt-5.6-terra` is never used; the scripts reject it.
-- `gpt-6-astra` only when you explicitly ask for GPT-6 / Astra. A hard task, a failed run, or a config file naming it is not authorization.
-- Fast mode (Codex `service_tier="fast"`) is a separate explicit opt-in. Asking for GPT-6 does not imply fast, and the reverse.
+- `gpt-6-astra` only when you explicitly ask for Astra. A hard task, a failed run, or a config file naming it is not authorization.
+- If you name an effort (`low` through `ultra`), it is used as given.
+- Fast mode (Codex `service_tier="fast"`) is a separate explicit opt-in. Asking for Astra does not imply fast, and the reverse.
 - Settings you authorized earlier in the same conversation carry forward; you are not asked again.
 - After the first delegated run, the agent reminds you once: "If you want later Codex work to go faster, say 'use fast mode from now on'; it may use more quota." Once only, non-blocking, and no job is re-sent to switch speed.
 

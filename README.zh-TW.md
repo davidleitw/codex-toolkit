@@ -91,17 +91,19 @@ ln -s "$PWD/codex-toolkit/skills/codex" ~/.codex/skills/codex
 
 ## 模型與速度規則
 
-所有腳本每次執行都明確帶上模型、推理強度（effort）與服務等級（service tier），不會繼承你 `~/.codex/config.toml` 裡的預設值。這是刻意的：全域設定即使寫了 GPT-6 或 fast，也不會在你沒開口的情況下被用到。
+所有腳本每次執行都明確帶上模型、推理強度（effort）與服務等級（service tier），不會繼承你 `~/.codex/config.toml` 裡的預設值。這是刻意的：全域設定即使寫了 Astra 或 fast，也不會在你沒開口的情況下被用到。
 
 | 工作 | 模型 / effort |
 |---|---|
-| 討論、review（不論大小）、debug、程式追蹤、任何需要設計判斷的工作 | `gpt-5.6-sol` / `high` |
-| 決策已確定、範圍明確的輕量修改（包含機械式修改） | `gpt-5.6-luna` / `max` |
-| 做圖、看截圖 | `gpt-5.6-sol` / `high` |
+| 預設：討論、review（不論大小）、debug、程式追蹤、任何需要設計判斷的工作 | `gpt-6.1-sol` / `high` |
+| 決策已確定、範圍明確的純 coding（包含機械式修改） | `gpt-6.1-sol` / `medium` |
+| 做圖、看截圖 | `gpt-6.1-sol` / `high` |
+| 你明確說要用 Astra | `gpt-6-astra` / `high`，或你指定的 effort |
 
 - 不會使用 `gpt-5.6-terra`。
-- `gpt-6-astra` 只在你明確說要用 GPT-6 / Astra 時才會用。任務很難、上一次失敗、或設定檔寫著它，都不算授權。
-- fast mode（Codex 的 `service_tier="fast"`）另外需要你明確說要。要 GPT-6 不等於要 fast，反過來也一樣。
+- `gpt-6-astra` 只在你明確說要用 Astra 時才會用。任務很難、上一次失敗、或設定檔寫著它，都不算授權。
+- 你指定的 effort（`low` 到 `ultra`）會照用。
+- fast mode（Codex 的 `service_tier="fast"`）另外需要你明確說要。要 Astra 不等於要 fast，反過來也一樣。
 - 同一段對話裡授權過的設定會延用，不會每次重問。
 - 第一次委派送出後，agent 會提醒你一次：「若想加快後續 Codex 工作，可以說『接下來用 fast mode』；可能增加額度消耗。」只提醒一次，不會等你回答，也不會為了換速度重送任務。
 
